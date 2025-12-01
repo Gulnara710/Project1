@@ -1,6 +1,7 @@
 Это моя первая семестровка. Я сделала сайт для школы по рисованию
 
 Скрипт для создания таблиц
+```
 -- 1. Пользователи
 CREATE TABLE users (
     id BIGSERIAL PRIMARY KEY,
@@ -41,3 +42,4 @@ CREATE TABLE users_courses (
     CONSTRAINT fk_course_id FOREIGN KEY (course_id) REFERENCES courses(id) ON DELETE CASCADE,
     UNIQUE (user_id, course_id)
 );
+```
