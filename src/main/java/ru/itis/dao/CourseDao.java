@@ -8,6 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CourseDao {
+    private Connection connection;
+
+    public CourseDao(Connection connection) {
+        this.connection = connection;
+    }
+
     public void saveNewCourse(CourseEntity course) throws SQLException {
         String sql = "INSERT INTO courses (title, description, details, image, price) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = ConnectionUtil.getConnection();

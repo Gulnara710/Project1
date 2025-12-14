@@ -3,6 +3,7 @@ package ru.itis.servlets;
 import ru.itis.dao.CourseDao;
 import ru.itis.entity.CourseEntity;
 import ru.itis.entity.UserEntity;
+import ru.itis.service.CourseService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,9 +17,19 @@ import java.util.List;
 
 @WebServlet("/myCourses")
 public class MyCoursesServlet extends HttpServlet {
+    private CourseService courseService;
+
+    @Override
+    public void init() throws ServletException {
+        try {
+            courseService = new CourseService();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        CourseDao course = new CourseDao();
         HttpSession session = req.getSession();
         UserEntity user = (UserEntity) session.getAttribute("user");
 
@@ -28,7 +39,7 @@ public class MyCoursesServlet extends HttpServlet {
         }
 
         try {
-            List<CourseEntity> myCourses = course.getUserBoughtCourses(user.getId());
+            List<CourseEntity> myCourses = courseService.getBoughtCourses( user.getId());
             req.setAttribute("myCourses", myCourses);
         } catch (SQLException e) {
             e.printStackTrace();

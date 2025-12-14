@@ -1,5 +1,6 @@
 package ru.itis.servlets;
 
+import ru.itis.dao.UserDao;
 import ru.itis.service.UserService;
 
 import javax.servlet.ServletException;
@@ -8,14 +9,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 
 @WebServlet("/register")
 public class RegisterServlet extends HttpServlet {
     private UserService userService;
+    private UserDao userDao;
 
     @Override
     public void init() {
-        userService = new UserService();
+        try {
+            userService = new UserService();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

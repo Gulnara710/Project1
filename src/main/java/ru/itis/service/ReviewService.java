@@ -4,13 +4,28 @@ import ru.itis.dao.CourseDao;
 import ru.itis.dao.ReviewDao;
 import ru.itis.entity.CourseEntity;
 import ru.itis.entity.ReviewEntity;
+import ru.itis.util.ConnectionUtil;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
 public class ReviewService {
-    private final ReviewDao reviewDao = new ReviewDao();
-    private final CourseDao courseDao = new CourseDao();
+    private ReviewDao reviewDao;
+    private CourseDao courseDao;
+
+    public ReviewService() {
+        this.reviewDao = reviewDao;
+        this.courseDao = courseDao;
+    }
+
+    public CourseDao getCourseDao() throws SQLException {
+        return courseDao = new CourseDao(ConnectionUtil.getConnection());
+    }
+
+    public ReviewDao getReviewDao() throws SQLException {
+        return reviewDao = new ReviewDao(ConnectionUtil.getConnection());
+    }
 
     public void addReview(Long userId, Long courseId, String text) throws SQLException {
         if (courseId == null || userId == null || text == null || text.trim().isEmpty()) {

@@ -6,10 +6,16 @@ import ru.itis.util.ConnectionUtil;
 import java.sql.*;
 
 public class UserDao {
+    private Connection connection;
+
+    public UserDao(Connection connection) throws SQLException {
+        this.connection = connection;
+    }
+
 
     public UserEntity findByUsername(String username) throws SQLException {
         String sql = "select * from users where username = ?";
-        try (Connection connection = ConnectionUtil.getConnection(); PreparedStatement ps = connection.prepareStatement(sql)) {
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -27,7 +33,7 @@ public class UserDao {
     public void save(UserEntity user) throws SQLException {
         String sql = "insert into users (username, hashPassword, role) values (?, ?, ?)";
 
-        try (Connection connection = ConnectionUtil.getConnection(); PreparedStatement ps = connection.prepareStatement(sql)) {
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, user.getUsername());
             ps.setString(2, user.getHashPassword());
             ps.setString(3, user.getRole());

@@ -15,7 +15,16 @@ import java.sql.SQLException;
 @WebServlet("/cart")
 public class CartServlet extends HttpServlet {
 
-    private final CourseService courseService = new CourseService();
+    private CourseService courseService;
+
+    @Override
+    public void init() throws ServletException {
+        try {
+            courseService = new CourseService();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)

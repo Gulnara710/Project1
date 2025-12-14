@@ -9,6 +9,12 @@ import java.util.List;
 
 public class ReviewDao {
 
+    private Connection connection;
+
+
+    public ReviewDao(Connection connection) {
+        this.connection = connection;
+    }
 
     public void saveReview(Long userId, Long courseId, String courseTitle, String text) throws SQLException {
 

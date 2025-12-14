@@ -15,7 +15,16 @@ import java.util.List;
 
 @WebServlet("/courses")
 public class CoursesServlet extends HttpServlet {
-    private final CourseService courseService = new CourseService();
+    private CourseService courseService;
+
+    @Override
+    public void init() throws ServletException {
+        try {
+            courseService = new CourseService();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)

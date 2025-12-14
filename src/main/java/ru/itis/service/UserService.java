@@ -2,14 +2,21 @@ package ru.itis.service;
 
 import ru.itis.dao.UserDao;
 import ru.itis.entity.UserEntity;
+import ru.itis.util.ConnectionUtil;
 import ru.itis.util.HashUtil;
 
 import java.sql.SQLException;
 
 public class UserService {
+    private UserDao userDao;
 
-    private final UserDao userDao = new UserDao();
+    public UserService() throws SQLException {
+        this.userDao = getUserDao();
+    }
 
+    public UserDao getUserDao() throws SQLException {
+        return userDao = new UserDao(ConnectionUtil.getConnection());
+    }
 
     public UserEntity login(String username, String password) {
         try {

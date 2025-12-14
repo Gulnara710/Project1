@@ -2,11 +2,22 @@ package ru.itis.service;
 
 import ru.itis.dao.CourseDao;
 import ru.itis.entity.CourseEntity;
+import ru.itis.util.ConnectionUtil;
+
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
 public class CourseService {
-    private final CourseDao courseDao = new CourseDao();
+    private CourseDao courseDao;
+
+    public CourseService() throws SQLException {
+        this.courseDao = getCourseDao();
+    }
+
+    public CourseDao getCourseDao() throws SQLException {
+        return courseDao = new CourseDao(ConnectionUtil.getConnection());
+    }
 
     public List<CourseEntity> getAllCourses() throws SQLException {
         List<CourseEntity> courses = courseDao.getAllCourses();

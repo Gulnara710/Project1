@@ -18,9 +18,18 @@ import java.util.List;
 
 @WebServlet("/reviews")
 public class ReviewsServlet extends HttpServlet {
+    private ReviewService reviewService;
+    private CourseService courseService;
 
-    private final ReviewService reviewService = new ReviewService();
-    private final CourseService courseService = new CourseService();
+    @Override
+    public void init() throws ServletException {
+        try {
+            courseService = new CourseService();
+            reviewService = new ReviewService();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)

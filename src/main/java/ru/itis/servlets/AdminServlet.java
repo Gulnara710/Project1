@@ -7,11 +7,21 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
+import java.sql.SQLException;
 
 @WebServlet("/admin")
 public class AdminServlet extends HttpServlet {
 
-    private final CourseService courseService = new CourseService();
+    private CourseService courseService;
+
+    @Override
+    public void init() throws ServletException {
+        try {
+            courseService = new CourseService();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
