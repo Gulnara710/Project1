@@ -51,7 +51,7 @@ public class AuthorisationFilter implements Filter {
         if (uri.contains("/admin")) {
             String role = user.getRole();
             if (role == null || !"admin".equalsIgnoreCase(role.trim())) {
-                System.out.println("Я тебя дальше путю! Пользователь: " + user.getUsername() +
+                System.out.println("Я тебя дальше не путю! Пользователь: " + user.getUsername() +
                         ", role: " + role);
                 response.sendRedirect(contextPath + "/index");
                 return;
